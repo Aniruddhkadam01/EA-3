@@ -1,0 +1,90 @@
+export type ArchitectureScope = 'Enterprise' | 'Business Unit' | 'Domain' | 'Programme';
+export type ReferenceFramework = 'ArchiMate' | 'TOGAF' | 'Custom';
+export type GovernanceMode = 'Strict' | 'Advisory';
+export type LifecycleCoverage = 'As-Is' | 'To-Be' | 'Both';
+export type TimeHorizon = 'Current' | '1–3 years' | 'Strategic';
+
+export type EaRepositoryMetadata = {
+  /** Immutable repository identifier (EA workspace identity). */
+  repositoryName: string;
+  organizationName: string;
+  industry?: string;
+  architectureScope: ArchitectureScope;
+  referenceFramework: ReferenceFramework;
+  governanceMode: GovernanceMode;
+  lifecycleCoverage: LifecycleCoverage;
+  timeHorizon: TimeHorizon;
+
+  createdAt: string;
+};
+
+export const ARCHITECTURE_SCOPES: ArchitectureScope[] = [
+  'Enterprise',
+  'Business Unit',
+  'Domain',
+  'Programme',
+];
+
+export const REFERENCE_FRAMEWORKS: ReferenceFramework[] = ['ArchiMate', 'TOGAF', 'Custom'];
+
+export const GOVERNANCE_MODES: GovernanceMode[] = ['Strict', 'Advisory'];
+
+export const LIFECYCLE_COVERAGE_OPTIONS: LifecycleCoverage[] = ['As-Is', 'To-Be', 'Both'];
+
+export const TIME_HORIZONS: TimeHorizon[] = ['Current', '1–3 years', 'Strategic'];
+
+export const validateRepositoryMetadata = (
+  value: unknown,
+): { ok: true; metadata: EaRepositoryMetadata } | { ok: false; error: string } => {
+  const v = value as any;
+
+  const repositoryName = typeof v?.repositoryName === 'string' ? v.repositoryName.trim() : '';
+  if (!repositoryName) return { ok: false, error: 'Repository Name is required.' };
+
+  const organizationName = typeof v?.organizationName === 'string' ? v.organizationName.trim() : '';
+  if (!organizationName) return { ok: false, error: 'Organization Name is required.' };
+
+  const industry = typeof v?.industry === 'string' ? v.industry.trim() : '';
+
+  const architectureScope = v?.architectureScope as ArchitectureScope;
+  if (!ARCHITECTURE_SCOPES.includes(architectureScope)) {
+    return { ok: false, error: 'Architecture Scope is required.' };
+  }
+
+  const referenceFramework = v?.referenceFramework as ReferenceFramework;
+  if (!REFERENCE_FRAMEWORKS.includes(referenceFramework)) {
+    return { ok: false, error: 'Reference Framework is required.' };
+  }
+
+  const governanceMode = v?.governanceMode as GovernanceMode;
+  if (!GOVERNANCE_MODES.includes(governanceMode)) {
+    return { ok: false, error: 'Governance Mode is required.' };
+  }
+
+  const lifecycleCoverage = v?.lifecycleCoverage as LifecycleCoverage;
+  if (!LIFECYCLE_COVERAGE_OPTIONS.includes(lifecycleCoverage)) {
+    return { ok: false, error: 'Lifecycle Coverage is required.' };
+  }
+
+  const timeHorizon = v?.timeHorizon as TimeHorizon;
+  if (!TIME_HORIZONS.includes(timeHorizon)) {
+    return { ok: false, error: 'Time Horizon is required.' };
+  }
+
+  const createdAt = typeof v?.createdAt === 'string' && v.createdAt.trim() ? v.createdAt : new Date().toISOString();
+
+  return {
+    ok: true,
+    metadata: {
+      repositoryName,
+      organizationName,
+      industry: industry || undefined,
+      architectureScope,
+      referenceFramework,
+      governanceMode,
+      lifecycleCoverage,
+      timeHorizon,
+      createdAt,
+    },
+  };
+};

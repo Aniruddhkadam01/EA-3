@@ -1,0 +1,535 @@
+.root {
+  height: 100%;
+  width: 100%;
+}
+
+.layoutRoot {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.topBar {
+  min-height: 30px;
+  height: auto;
+  line-height: normal;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.topMenu {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.topMenuButton {
+  height: 24px;
+  padding: 0 8px;
+}
+
+.topBarRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.topBarHint {
+  font-size: 12px;
+}
+
+.mainRow {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.activityBar {
+  width: 72px;
+}
+
+.leftDock {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  min-height: 0;
+  background: var(--ide-bg-container);
+}
+
+.iconRail {
+  flex: 0 0 auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 10px;
+  border-right: 1px solid var(--ide-border);
+  background: var(--ide-rail-bg);
+}
+
+.iconRailTop {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.iconRailBottom {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 10px;
+}
+
+.railAvatar {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+}
+
+.leftContextPanel {
+  flex: 0 0 auto;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-right: 1px solid var(--ide-border);
+  background: var(--ide-bg-container);
+}
+
+.leftDockResizer {
+  width: 6px;
+  flex: 0 0 auto;
+}
+
+.leftDockResizer:hover {
+  background: var(--ide-resizer-hover);
+}
+
+.secondarySidebar {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.sidebarHeaderActions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.iconButton {
+  width: 24px;
+  height: 24px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+.iconButton:hover {
+  background: var(--ide-control-hover);
+}
+
+.activityButton {
+  width: 52px;
+  height: 52px;
+  min-width: 52px;
+  padding: 0;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+}
+
+.activityButton :global(svg) {
+  font-size: 34px;
+}
+
+.activityButton:hover {
+  background: var(--ide-control-hover);
+}
+
+.activityButtonActive {
+  width: 52px;
+  height: 52px;
+  min-width: 52px;
+  padding: 0;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+}
+
+.activityButtonActive :global(svg) {
+  font-size: 34px;
+}
+
+/* Header logo: force the underlying <img> to fill the square. */
+.headerLogo :global(.ant-avatar-img) {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  display: block;
+}
+
+.logoButton:hover {
+  background: var(--ide-control-hover);
+}
+
+.logoButton:focus-visible {
+  outline: 2px solid var(--ide-border);
+  outline-offset: 2px;
+}
+
+/* AI button: center the icon container so the <video> keeps its intended size. */
+.aiButton :global(.ant-btn-icon) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+}
+
+.sidebarHeader {
+  min-height: 28px;
+  height: auto;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--ide-border);
+  background: var(--ide-header-bg);
+}
+
+.sidebarHeaderText {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sidebarBody {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+}
+
+/*
+ * Ant Design wraps Sider children in .ant-layout-sider-children.
+ * If that wrapper isn't height-constrained + flex, nested overflow containers won't scroll.
+ */
+.sidebarSider :global(.ant-layout-sider-children) {
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebarResizer {
+  width: 6px;
+  cursor: col-resize;
+  flex: 0 0 auto;
+}
+
+.sidebarResizer:hover {
+  background: var(--ide-resizer-hover);
+}
+
+.editorColumn {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--ide-bg-layout);
+}
+
+.editorRow {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: row;
+}
+
+.editorArea {
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
+}
+
+.rightResizer {
+  width: 6px;
+  cursor: col-resize;
+  flex: 0 0 auto;
+}
+
+.rightResizer:hover {
+  background: var(--ide-resizer-hover);
+}
+
+.rightPanel {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-left: 1px solid var(--ide-border);
+  background: var(--ide-bg-container);
+  box-shadow: -8px 0 18px rgba(0, 0, 0, 0.08);
+  position: relative;
+  z-index: 1;
+}
+
+.rightCollapsedBar {
+  width: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid var(--ide-border);
+  background: var(--ide-rail-bg);
+  box-shadow: -6px 0 14px rgba(0, 0, 0, 0.06);
+  position: relative;
+  z-index: 1;
+}
+
+.bottomResizer {
+  height: 6px;
+  cursor: row-resize;
+  flex: 0 0 auto;
+}
+
+.bottomResizer:hover {
+  background: var(--ide-resizer-hover);
+}
+
+.bottomPanel {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-top: 1px solid var(--ide-border);
+  background: var(--ide-bg-container);
+}
+
+.bottomPanelHeader {
+  height: 32px;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--ide-border);
+  background: var(--ide-header-bg);
+}
+
+.bottomPanelTitle {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.bottomPanelBody {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+}
+
+.bottomCollapsedBar {
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: 1px solid var(--ide-border);
+  background: var(--ide-rail-bg);
+}
+
+.editorTabs {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* Tabs should feel IDE-like: contained, with a clear nav/content separation. */
+.editorTabs :global(.ant-tabs-nav) {
+  background: var(--ide-bg-container);
+  border-bottom: 1px solid var(--ide-border);
+  margin: 0;
+  padding: 0 4px;
+  min-height: 32px;
+}
+
+.editorTabs :global(.ant-tabs-tab) {
+  padding: 6px 12px;
+}
+
+.editorTabs :global(.ant-tabs-tab-btn) {
+  font-size: 14px;
+}
+
+.editorTabs :global(.ant-tabs-nav::before) {
+  border-bottom: 1px solid var(--ide-border) !important;
+}
+
+.editorTabs :global(.ant-tabs-tab) {
+  background: var(--ide-tab-inactive-bg);
+}
+
+.editorTabs :global(.ant-tabs-tab:hover) {
+  background: var(--ide-control-hover);
+}
+
+.editorTabs :global(.ant-tabs-tab-active) {
+  background: var(--ide-bg-container);
+}
+
+.editorTabs :global(.ant-tabs-content-holder) {
+  background: var(--ide-bg-container);
+}
+
+.editorTabs :global(.ant-tabs-nav) {
+  flex: 0 0 auto;
+}
+
+.editorTabs :global(.ant-tabs-content-holder) {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.editorTabs :global(.ant-tabs-content) {
+  height: 100%;
+}
+
+.editorTabs :global(.ant-tabs-tabpane) {
+  height: 100%;
+}
+
+.editorPane {
+  height: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+  overflow: auto;
+}
+
+.editorCanvas {
+  height: 100%;
+  min-height: 0;
+}
+
+.emptyEditor {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.catalogTab {
+  padding: 12px;
+}
+
+.catalogTabHeader {
+  margin-bottom: 10px;
+}
+
+.placeholder {
+  padding: 10px;
+}
+
+.explorerTree {
+  padding: 8px;
+  font-size: 13.5px;
+}
+
+/* Clear hierarchy: 16–20px indentation per level. */
+.explorerTree :global(.ant-tree-indent-unit) {
+  width: 18px;
+}
+
+/* Dotted hierarchy guide lines (VS Code / EA tools style). */
+.explorerTree :global(.ant-tree-indent-unit) {
+  position: relative;
+  display: inline-block;
+  height: 100%;
+}
+
+.explorerTree :global(.ant-tree-indent-unit)::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: -10px;
+  bottom: -10px;
+  border-left: 1px dotted var(--ide-tree-line);
+  opacity: 0.9;
+}
+
+/* Horizontal connector into the current node (subtle). */
+.explorerTree :global(.ant-tree-switcher) {
+  position: relative;
+}
+
+.explorerTree :global(.ant-tree-switcher)::before {
+  content: '';
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  width: 10px;
+  border-top: 1px dotted var(--ide-tree-line);
+  transform: translateY(-50%);
+  opacity: 0.9;
+}
+
+.explorerTree :global(.ant-tree-treenode) {
+  padding-block: 2px;
+  position: relative;
+}
+
+.explorerTree :global(.ant-tree-node-content-wrapper) {
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+  padding-inline: 8px;
+}
+
+/* Explorer affordances: neutral selection (no blue, no pills). */
+.explorerTree :global(.ant-tree-node-content-wrapper) {
+  border-radius: 0;
+  position: relative;
+}
+
+.explorerTree :global(.ant-tree-node-content-wrapper:hover) {
+  background: var(--ide-tree-hover-bg);
+}
+
+.explorerTree :global(.ant-tree-node-content-wrapper.ant-tree-node-selected) {
+  background: var(--ide-tree-selected-bg);
+}
+
+/* VS Code-like left accent line for the selected row. */
+.explorerTree :global(.ant-tree-treenode-selected)::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  border-radius: 0;
+  background: var(--ide-tree-accent);
+}
+
+.explorerTree :global(.ant-tree-node-content-wrapper.ant-tree-node-selected:hover) {
+  background: var(--ide-tree-selected-bg);
+}
+
+/* Icon + caret alignment (16px icons, same color as text). */
+.explorerTree :global(.ant-tree-iconEle) {
+  font-size: 16px;
+  line-height: 16px;
+  color: inherit;
+}
+
+.explorerTree :global(.ant-tree-switcher) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}

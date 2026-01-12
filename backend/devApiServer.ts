@@ -1,0 +1,90 @@
+import express, { type NextFunction, type Request, type Response } from 'express';
+import fs from 'node:fs';
+import path from 'node:path';
+
+type Handler = (req: Request, res: Response, next?: NextFunction) => unknown;
+
+type MockModuleShape = {
+  default?: Record<string, Handler>;
+} & Record<string, unknown>;
+
+const PORT = Number(process.env.API_PORT ?? 3001);
+
+const app = express();
+app.use(express.json({ limit: '10mb' }));
+
+app.get('/health', (_req, res) => {
+  res.json({ ok: true });
+});
+
+const registered = new Set<string>();
+
+const registerRoute = (key: string, handler: Handler) => {
+  const firstSpace = key.indexOf(' ');
+  if (firstSpace <= 0) return;
+
+  const method = key.slice(0, firstSpace).trim().toLowerCase();
+  const route = key.slice(firstSpace + 1).trim();
+  if (!route.startsWith('/')) return;
+
+  const id = `${method} ${route}`;
+  if (registered.has(id)) return;
+  registered.add(id);
+
+  const verb = (app as any)[method];
+  if (typeof verb !== 'function') return;
+
+  verb.call(app, route, (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const out = handler(req, res, next);
+      if (out && typeof (out as any).then === 'function') {
+        (out as Promise<unknown>).catch(next);
+      }
+    } catch (err) {
+      next(err);
+    }
+  });
+};
+
+const loadMockFile = (filePath: string) => {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const mod = require(filePath) as MockModuleShape;
+  const maybe = (mod && (mod as any).default) || mod;
+  if (!maybe || typeof maybe !== 'object') return;
+
+  for (const [key, value] of Object.entries(maybe as Record<string, unknown>)) {
+    if (typeof value === 'function') {
+      registerRoute(key, value as Handler);
+    }
+  }
+};
+
+const mocksDir = path.resolve(__dirname, '..', 'mock');
+const mockFiles = fs
+  .readdirSync(mocksDir)
+  .filter((name) => (name.endsWith('.ts') || name.endsWith('.js')) && !name.endsWith('.d.ts'))
+  .map((name) => path.join(mocksDir, name));
+
+for (const file of mockFiles) {
+  loadMockFile(file);
+}
+
+// Fallback 404 for any unhandled /api route.
+app.use('/api', (_req, res) => {
+  res.status(404).json({ success: false, errorMessage: 'Not Found' });
+});
+
+// Basic error handler.
+app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
+  // Avoid noisy logs in normal dev flow.
+  // eslint-disable-next-line no-console
+  console.error('[api] error', err);
+  res.status(500).json({ success: false, errorMessage: 'Internal Server Error' });
+});
+
+app.listen(PORT, () => {
+  // eslint-disable-next-line no-console
+  console.log(`[api] listening on http://localhost:${PORT}`);
+  // eslint-disable-next-line no-console
+  console.log(`[api] loaded ${registered.size} routes from /mock`);
+});
